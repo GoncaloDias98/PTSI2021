@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const chalk = require("chalk");
 const Asyncjs = require("async");
+app.set('view engine', 'html');
+
 
 global.inDev = true;
 global.rootPath = __dirname;
@@ -27,3 +29,11 @@ Asyncjs.waterfall([
         console.log(chalk.green("Server listening on: ") + chalk.red(process.env.IP + ":" + process.env.PORT));
     });
 });
+
+app.use('/controller', express.static('controller'));
+var routesUser = require('./controller/index.route.js');
+
+
+app.get('/', (req, res)=>{
+    res.sendFile('index.html', { root: './public' });
+})
